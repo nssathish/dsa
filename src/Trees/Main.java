@@ -20,5 +20,19 @@ public class Main {
         System.out.println ( bsTree.levelOrderTraverse () );
 
         System.out.println ( bsTree.height () );
+        System.out.println ( bsTree.depth ( 12 ) );
+        System.out.println (bsTree.depth ( 8 ) );
+        System.out.println (bsTree.depthByRecursion ( 8 ) );
+        System.out.println ( bsTree.depthByRecursion ( 12 ) );
+
+        System.out.println ( bsTree.min() );
+        System.out.println ( bsTree.minVal () );
+
+        var bsTreeCopy = bsTree;
+        System.out.println ( bsTree.equals ( bsTreeCopy ) );
+
+        bsTreeCopy = new BinarySearchTree ( 5 );
+        System.out.println ( bsTree.equals ( bsTreeCopy ) );
+
     }
 }

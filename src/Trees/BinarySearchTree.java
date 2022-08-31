@@ -2,7 +2,6 @@ package Trees;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
 
 interface BinarySearchable {
     void insert(int value);
@@ -129,5 +128,70 @@ public class BinarySearchTree implements BinarySearchable {
             return 1 + Math.max ( height ( current.leftChild ), height ( current.rightChild ) );
 
         return 0;
+    }
+
+    public int depth(int value) {
+        var current = root;
+        int depth = 0;
+        while (current != null) {
+            if (value == current.data)
+                break;
+            else if  (value < current.data)
+                current = current.leftChild;
+            else
+                current = current.rightChild;
+
+            depth++;
+        }
+
+        return depth;
+    }
+
+    public int depthByRecursion (int value) {
+        return depthByRecursion (root, new Node ( value ), 0);
+    }
+    private int depthByRecursion( Node current, Node node, int depth ) {
+        if (node == null || node.data == current.data)
+            return depth;
+
+        if (node.data < current.data ) return depthByRecursion ( current.leftChild, node, depth + 1 );
+        else return depthByRecursion ( current.rightChild, node, depth + 1 );
+    }
+
+    public int min() {
+        var current = root;
+        while (current.leftChild != null)
+            current = current.leftChild;
+
+        return current.data;
+    }
+
+    public int minVal() {
+        return minVal(root);
+    }
+    private int minVal(Node current) {
+        if (current == null)
+            return Integer.MAX_VALUE;
+
+        var left = minVal (current.leftChild);
+        var right = minVal (current.rightChild);
+
+        return Math.min ( Math.min ( left, right ), current.data );
+    }
+
+    public boolean equals(Node clone) {
+        if (clone == null) return false;
+
+        return equals(root, clone);
+    }
+    private boolean equals(Node root, Node clone) {
+        if (
+                root.data == clone.data
+                        && equals ( root.leftChild, clone.leftChild )
+                        && equals ( root.rightChild, clone.rightChild )
+        )
+            return true;
+
+        return false;
     }
 }
