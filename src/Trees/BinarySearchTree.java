@@ -194,4 +194,16 @@ public class BinarySearchTree implements BinarySearchable {
 
         return false;
     }
+
+
+    public boolean isValid() {
+        return isValid(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    private boolean isValid(Node root, int min, int max) {
+        if (root == null) return true;
+
+        return root.data >= min && root.data < max
+                && isValid (root.leftChild, min, root.data)
+                && isValid (root.rightChild, root.data, max);
+    }
 }
