@@ -29,13 +29,15 @@ public class Main {
         System.out.println ( bsTree.minVal () );
 
         var bsTreeCopy = bsTree;
-        System.out.println ( bsTree.equals ( bsTreeCopy ) );
-
         bsTreeCopy = new BinarySearchTree ( 5 );
+        System.out.println ( bsTreeCopy.equals ( bsTree ) );
         System.out.println ( bsTree.equals ( bsTreeCopy ) );
 
         System.out.println ( bsTree.isValid () );
         System.out.println ( bsTreeCopy.isValid () );
 
+        bsTree.nodesAtKDistance ( 2 );
+        for (var item : bsTree.nodesAtKDistanceByRecursion ( 2 ))
+            System.out.println ( item );
     }
 }

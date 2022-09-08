@@ -1,5 +1,7 @@
 package Trees;
 
+import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -62,8 +64,7 @@ public class BinarySearchTree implements BinarySearchable {
     }
 
     public ArrayList<Integer> preOrderTraverse() {
-        var current = root;
-        return _preOrderTraverse ( current, new ArrayList<Integer> ( ) );
+        return _preOrderTraverse ( root, new ArrayList<> ( ) );
     }
 
     private ArrayList<Integer> _preOrderTraverse(Node current, ArrayList<Integer> items) {
@@ -77,8 +78,7 @@ public class BinarySearchTree implements BinarySearchable {
     }
 
     public ArrayList<Integer> postOrderTraverse() {
-        var current = root;
-        return _postOrderTraverse ( current, new ArrayList<Integer> ( ) );
+        return _postOrderTraverse ( root, new ArrayList<> ( ) );
     }
 
     private ArrayList<Integer> _postOrderTraverse(Node current, ArrayList<Integer> items) {
@@ -92,7 +92,7 @@ public class BinarySearchTree implements BinarySearchable {
     }
 
     public ArrayList<Integer> inOrderTraverse() {
-        return _inOrderTraverse ( root, new ArrayList<Integer> ( ) );
+        return _inOrderTraverse ( root, new ArrayList<> ( ) );
     }
 
     private ArrayList<Integer> _inOrderTraverse(Node current, ArrayList<Integer> items) {
@@ -185,14 +185,9 @@ public class BinarySearchTree implements BinarySearchable {
         return equals(root, clone);
     }
     private boolean equals(Node root, Node clone) {
-        if (
-                root.data == clone.data
-                        && equals ( root.leftChild, clone.leftChild )
-                        && equals ( root.rightChild, clone.rightChild )
-        )
-            return true;
-
-        return false;
+        return root.data == clone.data
+                && equals ( root.leftChild, clone.leftChild )
+                && equals ( root.rightChild, clone.rightChild );
     }
 
 
@@ -205,5 +200,43 @@ public class BinarySearchTree implements BinarySearchable {
         return root.data >= min && root.data < max
                 && isValid (root.leftChild, min, root.data)
                 && isValid (root.rightChild, root.data, max);
+    }
+
+    public  void nodesAtKDistance(int k) {
+        var nodes = new ArrayList<Node> (  );
+        nodes.add ( root );
+        nodes = nodesAtKDistance ( nodes, k );
+        var result = new int[nodes.size ()];
+        for (Node node : nodes) System.out.println ( node.data );
+    }
+
+    private ArrayList<Node> nodesAtKDistance( ArrayList<Node> nodes, int k) {
+        while (k > 0) {
+            var result = new ArrayList<Node> (  );
+            for (var node : nodes) {
+                if (node.leftChild != null) result.add ( node.leftChild );
+                if (node.rightChild != null) result.add ( node.rightChild );
+            }
+            nodes = result;
+            k --;
+        }
+        return nodes;
+    }
+
+    public ArrayList<Integer> nodesAtKDistanceByRecursion(int k) {
+        var list = new ArrayList<Integer> ( );
+        nodesAtKDistanceByRecursion ( root, k, list );
+        return list;
+    }
+    private void nodesAtKDistanceByRecursion(Node root, int distance, ArrayList<Integer> items) {
+        if (root == null) return;
+
+        if (distance == 0) {
+            items.add ( root.data );
+            return;
+        }
+
+        nodesAtKDistanceByRecursion ( root.leftChild, distance - 1, items );
+        nodesAtKDistanceByRecursion ( root.rightChild, distance - 1, items );
     }
 }
